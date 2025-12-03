@@ -1,0 +1,110 @@
+import {
+	existsSync,
+    mkdirSync,
+    rmSync,
+    statSync,
+    writeFileSync,
+    readFileSync,
+} from 'node:fs';
+import { seoDt, objLen } from "@degreesign/utils";
+
+const
+    /** Validate Folder */
+    safeFolder = (targetFolder: string) => {
+        try {
+            if (!existsSync(targetFolder)) // if dir does not exist
+                mkdirSync(targetFolder, { recursive: true }); // create dir 
+            return true
+        } catch (e) {
+            console.log(seoDt(), `safeFolder failed`, e);
+            return false
+        };
+    },
+    /** Delete Folder */
+    delFolder = (targetFolder: string) => {
+        try {
+            if (existsSync(targetFolder)) // if dir exist
+                rmSync(targetFolder, { recursive: true, force: true });
+            return true
+        } catch (e) {
+            console.log(seoDt(), `delFolder failed`, e);
+            return false
+        };
+    },
+    /** File Stats */
+    fileStats = (targetFile: string) => {
+        try {
+            return statSync(targetFile);
+        } catch (e) {
+            console.log(seoDt(), `fileStats failed`, e);
+            return
+        };
+    },
+    /** Write to files */
+    wrt = (file: string, code: any) => {
+        try {
+            return code ? (
+                writeFileSync(file, code, `utf8`),
+                true
+            ) : (
+                console.log(seoDt(), `no data to write to`, file),
+                false
+            )
+        } catch {
+            console.log(seoDt(), `failed to write to`, file);
+            return false
+        };
+    },
+    /** Write JSON to files */
+    wrtJ = (file: string, code: any) => {
+        try {
+            if (objLen(code)) {
+                const codeStr = JSON.stringify(code)
+                return codeStr ? (
+                    wrt(file, codeStr) ? 1
+                        : (
+                            console.log(seoDt(), `error writing to:`, file),
+                            0
+                        )
+                ) : (
+                    console.log(seoDt(), `no JSON data to write.`, file),
+                    0
+                );
+            } else {
+                console.log(seoDt(), `no JSON data to write.`, file);
+                return 0;
+            };
+        } catch (e) {
+            console.log(seoDt(), `major error writing to:`, file);
+            return 0
+        };
+    },
+    /** Read files */
+    red = (file: string, disableLog?: boolean) => {
+        try {
+            return readFileSync(file, `utf8`);
+        } catch (e) {
+            if (!disableLog) console.log(seoDt(), `no data to read at`, file);
+            return undefined;
+        };
+    },
+    /** Read JSON files */
+    redJ = (file: string, disableLog?: boolean) => {
+        try {
+            const data = red(file, disableLog)
+            return data ? JSON.parse(data) : undefined;
+        } catch (e) {
+            if (!disableLog) console.log(seoDt(), `no JSON data to read:`, file);
+            return undefined
+        };
+    };
+
+export {
+    wrt,
+    wrtJ,
+    red,
+    redJ,
+    safeFolder,
+    delFolder,
+    fileStats,
+}

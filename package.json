@@ -1,0 +1,48 @@
+{
+  "name": "@degreesign/cache",
+  "version": "0.0.1",
+  "main": "dist/node/degreesign.node.min.js",
+  "module": "dist/node/degreesign.node.min.js",
+  "browser": "dist/browser/degreesign.min.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [
+    "nodejs server cache",
+    "server cache",
+    "nodejs cache",
+    "degreesign"
+  ],
+  "author": "Prince Hasn",
+  "homepage": "https://github.com/DegreeSign/ds_cache#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DegreeSign/ds_cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DegreeSign/ds_cache/issues"
+  },
+  "license": "MIT",
+  "description": "DegreeSign Server Cache SDK gives instant data read and write for any project",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "terser-webpack-plugin": "^5.3.11",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "dependencies": {
+    "@degreesign/utils": "^1.0.1"
+  },
+  "files": [
+    "dist/"
+  ]
+}
