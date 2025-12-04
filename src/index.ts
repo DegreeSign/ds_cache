@@ -1,5 +1,5 @@
 import { saveCache, readCache, getCacheDir, setCacheDir } from "./code/cache";
-import { wrt, wrtJ, red, redJ, safeFolder, delFolder, fileStats } from "./code/disk";
+import { wrt, wrtJ, red, redJ, safeFolder, delFolder, fileStats, delFile } from "./code/disk";
 
 export {
     wrt,
@@ -8,6 +8,7 @@ export {
     redJ,
     safeFolder,
     delFolder,
+    delFile,
     fileStats,
     saveCache,
     readCache,

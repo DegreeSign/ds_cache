@@ -5,6 +5,7 @@ import {
     statSync,
     writeFileSync,
     readFileSync,
+    unlinkSync,
 } from 'node:fs';
 
 const
@@ -30,6 +31,17 @@ const
         } catch (e) {
             console.log(logDate(), `delFolder failed`, e);
             return false
+        };
+    },
+    /** Delete File */
+    delFile = (file: string) => {
+        try {
+            if (existsSync(file)) // check file exists
+                unlinkSync(file); // delete file
+            return true
+        } catch (e) {
+            console.log(logDate(), `no data to read:`, file);
+            return undefined;
         };
     },
     /** File Stats */
@@ -107,5 +119,6 @@ export {
     redJ,
     safeFolder,
     delFolder,
+    delFile,
     fileStats,
 }
