@@ -1,14 +1,15 @@
 import {
-	existsSync,
+    existsSync,
     mkdirSync,
     rmSync,
     statSync,
     writeFileSync,
     readFileSync,
 } from 'node:fs';
-import { seoDt, objLen } from "@degreesign/utils";
 
 const
+    /** Log error date */
+    logDate = () => new Date()?.toISOString(),
     /** Validate Folder */
     safeFolder = (targetFolder: string) => {
         try {
@@ -16,7 +17,7 @@ const
                 mkdirSync(targetFolder, { recursive: true }); // create dir 
             return true
         } catch (e) {
-            console.log(seoDt(), `safeFolder failed`, e);
+            console.log(logDate(), `safeFolder failed`, e);
             return false
         };
     },
@@ -27,7 +28,7 @@ const
                 rmSync(targetFolder, { recursive: true, force: true });
             return true
         } catch (e) {
-            console.log(seoDt(), `delFolder failed`, e);
+            console.log(logDate(), `delFolder failed`, e);
             return false
         };
     },
@@ -36,7 +37,7 @@ const
         try {
             return statSync(targetFile);
         } catch (e) {
-            console.log(seoDt(), `fileStats failed`, e);
+            console.log(logDate(), `fileStats failed`, e);
             return
         };
     },
@@ -47,35 +48,35 @@ const
                 writeFileSync(file, code, `utf8`),
                 true
             ) : (
-                console.log(seoDt(), `no data to write to`, file),
+                console.log(logDate(), `no data to write to`, file),
                 false
             )
         } catch {
-            console.log(seoDt(), `failed to write to`, file);
+            console.log(logDate(), `failed to write to`, file);
             return false
         };
     },
     /** Write JSON to files */
     wrtJ = (file: string, code: any) => {
         try {
-            if (objLen(code)) {
+            if (Object.keys(code || {})?.length) {
                 const codeStr = JSON.stringify(code)
                 return codeStr ? (
                     wrt(file, codeStr) ? 1
                         : (
-                            console.log(seoDt(), `error writing to:`, file),
+                            console.log(logDate(), `error writing to:`, file),
                             0
                         )
                 ) : (
-                    console.log(seoDt(), `no JSON data to write.`, file),
+                    console.log(logDate(), `no JSON data to write.`, file),
                     0
                 );
             } else {
-                console.log(seoDt(), `no JSON data to write.`, file);
+                console.log(logDate(), `no JSON data to write.`, file);
                 return 0;
             };
         } catch (e) {
-            console.log(seoDt(), `major error writing to:`, file);
+            console.log(logDate(), `major error writing to:`, file);
             return 0
         };
     },
@@ -84,7 +85,7 @@ const
         try {
             return readFileSync(file, `utf8`);
         } catch (e) {
-            if (!disableLog) console.log(seoDt(), `no data to read at`, file);
+            if (!disableLog) console.log(logDate(), `no data to read at`, file);
             return undefined;
         };
     },
@@ -94,7 +95,7 @@ const
             const data = red(file, disableLog)
             return data ? JSON.parse(data) : undefined;
         } catch (e) {
-            if (!disableLog) console.log(seoDt(), `no JSON data to read:`, file);
+            if (!disableLog) console.log(logDate(), `no JSON data to read:`, file);
             return undefined
         };
     };
