@@ -1,6 +1,6 @@
 import { safeFolder, wrtJ, redJ } from "./disk";
 
-let cacheDir = `/root/server_cache/cache/`;
+let cacheDir = `./cache/`;
 
 const
     getCacheDir = () => cacheDir,
@@ -15,20 +15,28 @@ const
         key: string,
         data: any
     ) => {
-        liveCache[key] = data;
-        if (key?.includes(`/`)) {
-            const targetFolder = key.substring(0, key.lastIndexOf('/'));
-            safeFolder(`${cacheDir}${targetFolder}`);
+        try {
+            liveCache[key] = data;
+            if (key?.includes(`/`)) {
+                const targetFolder = key.substring(0, key.lastIndexOf('/'));
+                safeFolder(`${cacheDir}${targetFolder}`);
+            };
+            wrtJ(`${cacheDir}${key}.json`, data);
+        } catch (e) {
+            console.log(`saveCache failed`, e);
         };
-        wrtJ(`${cacheDir}${key}.json`, data);
     },
     /** Read Cache */
     readCache = (
         key: string
     ) => {
-        if (!liveCache[key])
-            liveCache[key] = redJ(`${cacheDir}${key}.json`, true);
-        return liveCache[key]
+        try {
+            if (!liveCache[key])
+                liveCache[key] = redJ(`${cacheDir}${key}.json`, true);
+            return liveCache[key]
+        } catch (e) {
+            console.log(`readCache failed`, e);
+        };
     };
 
 export {
