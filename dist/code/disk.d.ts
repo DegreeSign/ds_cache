@@ -14,7 +14,7 @@ fileStats: (targetFile: string) => import("fs").Stats | undefined,
 /** Write to files */
 wrt: (file: string, code: string) => boolean, 
 /** Write JSON to files */
-wrtJ: <T>(file: string, code: T) => 1 | 0, 
+wrtJ: <T>(file: string, code: T) => 0 | 1, 
 /** Read files */
 red: (file: string, disableLog?: boolean) => string | undefined, 
 /** Read JSON files */

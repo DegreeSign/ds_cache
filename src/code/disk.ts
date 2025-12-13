@@ -45,7 +45,7 @@ const
             return true
         } catch (e) {
             console.log(logDate(), `no data to read:`, file);
-            return undefined;
+            return;
         };
     },
     /** File Stats */
@@ -102,7 +102,7 @@ const
             return readFileSync(file, `utf8`);
         } catch (e) {
             if (!disableLog) console.log(logDate(), `no data to read at`, file);
-            return undefined;
+            return;
         };
     },
     /** Read JSON files */
@@ -112,7 +112,7 @@ const
             return data ? JSON.parse(data) : undefined;
         } catch (e) {
             if (!disableLog) console.log(logDate(), `no JSON data to read:`, file);
-            return undefined
+            return;
         };
     };
 
