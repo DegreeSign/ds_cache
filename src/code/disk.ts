@@ -9,9 +9,13 @@ import {
 } from 'node:fs';
 
 const
-    /** Log error date */
+    /** Date for error log */
     logDate = () => new Date()?.toISOString(),
-    /** Validate Folder */
+    /**
+     * Validate Folder
+     * 
+     * create if does not exist 
+     * */
     safeFolder = (targetFolder: string) => {
         try {
             if (!existsSync(targetFolder)) // if dir does not exist
@@ -54,7 +58,7 @@ const
         };
     },
     /** Write to files */
-    wrt = (file: string, code: any) => {
+    wrt = (file: string, code: string) => {
         try {
             return code ? (
                 writeFileSync(file, code, `utf8`),
@@ -69,7 +73,7 @@ const
         };
     },
     /** Write JSON to files */
-    wrtJ = (file: string, code: any) => {
+    wrtJ = <T>(file: string, code: T) => {
         try {
             if (Object.keys(code || {})?.length) {
                 const codeStr = JSON.stringify(code)
@@ -102,7 +106,7 @@ const
         };
     },
     /** Read JSON files */
-    redJ = (file: string, disableLog?: boolean) => {
+    redJ = <T>(file: string, disableLog?: boolean): T | undefined => {
         try {
             const data = red(file, disableLog)
             return data ? JSON.parse(data) : undefined;
