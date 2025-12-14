@@ -1,118 +1,73 @@
 import {
-    existsSync,
-    mkdirSync,
-    rmSync,
-    statSync,
     writeFileSync,
     readFileSync,
-    unlinkSync,
 } from 'node:fs';
+import {
+    getStrJSON,
+    logErr,
+    utf8
+} from './utils';
 
 const
-    /** Date for error log */
-    logDate = () => new Date()?.toISOString(),
-    /**
-     * Validate Folder
-     * 
-     * create if does not exist 
-     * */
-    safeFolder = (targetFolder: string) => {
-        try {
-            if (!existsSync(targetFolder)) // if dir does not exist
-                mkdirSync(targetFolder, { recursive: true }); // create dir 
-            return true
-        } catch (e) {
-            console.log(logDate(), `safeFolder failed`, e);
-            return false
-        };
-    },
-    /** Delete Folder */
-    delFolder = (targetFolder: string) => {
-        try {
-            if (existsSync(targetFolder)) // if dir exist
-                rmSync(targetFolder, { recursive: true, force: true });
-            return true
-        } catch (e) {
-            console.log(logDate(), `delFolder failed`, e);
-            return false
-        };
-    },
-    /** Delete File */
-    delFile = (file: string) => {
-        try {
-            if (existsSync(file)) // check file exists
-                unlinkSync(file); // delete file
-            return true
-        } catch (e) {
-            console.log(logDate(), `no data to read:`, file);
-            return;
-        };
-    },
-    /** File Stats */
-    fileStats = (targetFile: string) => {
-        try {
-            return statSync(targetFile);
-        } catch (e) {
-            console.log(logDate(), `fileStats failed`, e);
-            return
-        };
-    },
     /** Write to files */
-    wrt = (file: string, code: string) => {
+    wrt = (fileName: string, inputData: string): boolean => {
         try {
-            return code ? (
-                writeFileSync(file, code, `utf8`),
-                true
-            ) : (
-                console.log(logDate(), `no data to write to`, file),
-                false
-            )
-        } catch {
-            console.log(logDate(), `failed to write to`, file);
-            return false
+            if (inputData != undefined) {
+                writeFileSync(fileName, inputData, utf8);
+                return true
+            } else logErr({ fileName });
+        } catch (e) {
+            logErr({
+                fileName,
+                error: true,
+            });
         };
+        return false
     },
     /** Write JSON to files */
-    wrtJ = <T>(file: string, code: T) => {
+    wrtJ = <T>(fileName: string, inputData: T): boolean => {
         try {
-            if (Object.keys(code || {})?.length) {
-                const codeStr = JSON.stringify(code)
-                return codeStr ? (
-                    wrt(file, codeStr) ? 1
-                        : (
-                            console.log(logDate(), `error writing to:`, file),
-                            0
-                        )
-                ) : (
-                    console.log(logDate(), `no JSON data to write.`, file),
-                    0
-                );
-            } else {
-                console.log(logDate(), `no JSON data to write.`, file);
-                return 0;
-            };
+            const data = getStrJSON(inputData);
+            if (data) return wrt(fileName, data);
+            else logErr({
+                fileName,
+                json: true,
+            });
         } catch (e) {
-            console.log(logDate(), `major error writing to:`, file);
-            return 0
+            logErr({
+                fileName,
+                error: true,
+                json: true,
+            });
         };
+        return false
     },
     /** Read files */
-    red = (file: string, disableLog?: boolean) => {
+    red = (fileName: string, disableLog?: boolean): string | undefined => {
         try {
-            return readFileSync(file, `utf8`);
+            return readFileSync(fileName, utf8);
         } catch (e) {
-            if (!disableLog) console.log(logDate(), `no data to read at`, file);
-            return;
+            logErr({
+                fileName,
+                disableLog,
+                error: true,
+                read: true,
+            });
         };
     },
     /** Read JSON files */
-    redJ = <T>(file: string, disableLog?: boolean): T | undefined => {
+    redJ = <T>(fileName: string, disableLog?: boolean): T | undefined => {
         try {
-            const data = red(file, disableLog)
+            const data = red(fileName, disableLog)
             return data ? JSON.parse(data) : undefined;
         } catch (e) {
-            if (!disableLog) console.log(logDate(), `no JSON data to read:`, file);
-            return;
+            logErr({
+                fileName,
+                disableLog,
+                error: true,
+                read: true,
+                json: true,
+            });
         };
     };
 
@@ -121,8 +76,4 @@ export {
     wrtJ,
     red,
     redJ,
-    safeFolder,
-    delFolder,
-    delFile,
-    fileStats,
 }

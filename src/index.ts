@@ -1,11 +1,15 @@
 import { saveCache, readCache, getCacheDir, setCacheDir } from "./code/cache";
-import { wrt, wrtJ, red, redJ, safeFolder, delFolder, fileStats, delFile } from "./code/disk";
+import { redJCompressed, wrtJCompressed } from "./code/compress";
+import { safeFolder, delFolder, delFile, fileStats } from "./code/dir";
+import { wrt, wrtJ, red, redJ } from "./code/disk";
 
 export {
     wrt,
     wrtJ,
+    wrtJCompressed,
     red,
     redJ,
+    redJCompressed,
     safeFolder,
     delFolder,
     delFile,
