@@ -1,6 +1,6 @@
 {
   "name": "@degreesign/cache",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "main": "dist/node/degreesign.node.min.js",
   "module": "dist/node/degreesign.node.min.js",
   "browser": "dist/browser/degreesign.min.js",
@@ -9,9 +9,23 @@
     "build": "webpack"
   },
   "keywords": [
-    "nodejs server cache",
-    "server cache",
+    "node cache",
     "nodejs cache",
+    "server cache",
+    "file cache",
+    "filesystem cache",
+    "disk cache",
+    "json cache",
+    "gzip cache",
+    "compressed json",
+    "typescript cache sdk",
+    "zero dependency cache",
+    "local cache",
+    "live cache",
+    "disk-backed cache",
+    "data persistence",
+    "read write files",
+    "sync file cache",
     "degreesign"
   ],
   "author": "Prince Hasn",
@@ -24,7 +38,7 @@
     "url": "https://github.com/DegreeSign/ds_cache/issues"
   },
   "license": "MIT",
-  "description": "DegreeSign Server Cache SDK gives instant data read and write for any project",
+  "description": "Instant, dependency-free Node.js data read/write caching SDK — files, JSON, gzip-compressed JSON, and a disk-backed live cache with TypeScript types.",
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@types/webpack-bundle-analyzer": "^4.7.0",
