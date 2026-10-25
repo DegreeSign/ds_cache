@@ -82,15 +82,15 @@ Load the published bundle directly from a CDN (Node.js/Deno runtime — the SDK 
 <script type="module">
   import {
     wrtJ, redJ, saveCache, readCache
-  } from 'https://esm.sh/@degreesign/cache@1.0.0';
+  } from 'https://esm.sh/@degreesign/cache@1.0.1';
 </script>
 ```
 
 Or resolve a version-pinned file URL with unpkg / jsDelivr:
 
 ```text
-https://unpkg.com/@degreesign/cache@1.0.0/dist/node/degreesign.node.min.js
-https://cdn.jsdelivr.net/npm/@degreesign/cache@1.0.0/dist/node/degreesign.node.min.js
+https://unpkg.com/@degreesign/cache@1.0.1/dist/node/degreesign.node.min.js
+https://cdn.jsdelivr.net/npm/@degreesign/cache@1.0.1/dist/node/degreesign.node.min.js
 ```
 
 ## Quick Start
@@ -188,7 +188,7 @@ All exports are available from the package root and from the built `dist/` decla
 | Function | Signature | Returns | Description |
 | --- | --- | --- | --- |
 | `safeFolder` | `(targetFolder: string) => boolean` | `boolean` | Creates a folder (recursively) if it does not exist. Safe to call repeatedly. |
-| `delFolder` | `(targetFolder: string) => boolean` | `boolean` | Recursively deletes a folder, including its contents. |
+| `delFolder` | `(targetFolder: string) => boolean` | `boolean` | Recursively deletes a folder, including its contents. Refuses empty, root, current-working-directory and ancestor paths. |
 | `delFile` | `(targetFile: string) => boolean` | `boolean` | Deletes a single file if it exists. |
 | `fileStats` | `(targetFile: string) => Stats \| undefined` | `fs.Stats \| undefined` | Returns Node's `fs.Stats` (size, timestamps, etc.) for a file. |
 
