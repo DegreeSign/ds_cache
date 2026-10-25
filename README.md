@@ -29,6 +29,7 @@
   - [Compressed JSON](#compressed-json)
   - [Folders and File Utilities](#folders-and-file-utilities)
   - [Disk-Backed Live Cache](#disk-backed-live-cache)
+- [Architecture](#architecture)
 - [TypeScript](#typescript)
 - [FAQ](#faq)
 - [Change Log](#change-log)
@@ -82,15 +83,15 @@ Load the published bundle directly from a CDN (Node.js/Deno runtime — the SDK 
 <script type="module">
   import {
     wrtJ, redJ, saveCache, readCache
-  } from 'https://esm.sh/@degreesign/cache@1.0.1';
+  } from 'https://esm.sh/@degreesign/cache@1.0.2';
 </script>
 ```
 
 Or resolve a version-pinned file URL with unpkg / jsDelivr:
 
 ```text
-https://unpkg.com/@degreesign/cache@1.0.1/dist/node/degreesign.node.min.js
-https://cdn.jsdelivr.net/npm/@degreesign/cache@1.0.1/dist/node/degreesign.node.min.js
+https://unpkg.com/@degreesign/cache@1.0.2/dist/node/degreesign.node.min.js
+https://cdn.jsdelivr.net/npm/@degreesign/cache@1.0.2/dist/node/degreesign.node.min.js
 ```
 
 ## Quick Start
@@ -200,6 +201,10 @@ All exports are available from the package root and from the built `dist/` decla
 | `readCache` | `<T>(key: string) => T \| undefined` | `T \| undefined` | Reads from memory first, then falls back to disk and repopulates the live cache. |
 | `getCacheDir` | `() => string` | `string` | Returns the current cache directory (defaults to `./cache/`). |
 | `setCacheDir` | `(newDir: string) => void` | `void` | Sets the cache directory and creates it with `safeFolder` if needed. |
+
+## Architecture
+
+Open the [interactive architecture map](https://degreesign.github.io/ds_cache/architecture.html) for the full dependency view: bands from the Node.js host to the build, every source module and exported function with its real line, the typed call graph, and the read/write flow of one cached value.
 
 ## TypeScript
 
